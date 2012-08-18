@@ -31,7 +31,7 @@
 			
 			private var searchTimer:Timer;
 			
-			public var typingSleepTime:int = 1000;
+			public var typingSleepTime:int = 500;
 			
 			private function initComponent():void {
 				
