@@ -27,30 +27,48 @@
 			 */
 			private var typing:Boolean = false;
 			
+			private var typingStatusCheckTimer:Timer;
+			
+			private var searchTimer:Timer;
+			
 			public var typingSleepTime:int = 1000;
 			
 			private function initComponent():void {
 				
 				this.addEventListener(KeyboardEvent.KEY_DOWN, onTyping);
 				
-				var timer:Timer = new Timer(typingSleepTime);
-				timer.addEventListener(TimerEvent.TIMER, onTimer);
-				timer.start();
+				typingStatusCheckTimer = new Timer(typingSleepTime, 1);
+				typingStatusCheckTimer.addEventListener(TimerEvent.TIMER, onTypingStatusCheckTimer);
+				
+				
+				searchTimer = new Timer(typingSleepTime, 1);
+				searchTimer.addEventListener(TimerEvent.TIMER, onSearchTimer);
+				//timer.start();
 			}
 			
-			private function onTimer(event:TimerEvent):void {
-				if (!searching && !typing) {
+			private function onTypingStatusCheckTimer(event:TimerEvent):void {
+				// 解除输入状态，在下一次循环时如此状态仍然为false则开始搜索
+				typing = false;
+				
+				searchTimer.start();
+			}
+			
+			private function onSearchTimer(event:TimerEvent):void {
+				if (!typing && !searching) {
 					// 触发搜索事件
 					var evt:Event = new Event("search");
 					this.dispatchEvent(evt);
 					// 将搜索状态设为true，在输入时解除此状态
 					searching = true;
 				}
-				// 解除输入状态，在下一次循环时如此状态仍然为false则开始搜索
-				typing = false;
 			}
 			
 			private function onTyping(event:KeyboardEvent):void {
+				
+				if (!typing) {
+					typingStatusCheckTimer.start();
+				}
+				
 				typing = true;
 				// 输入时解除搜索状态
 				searching = false;
