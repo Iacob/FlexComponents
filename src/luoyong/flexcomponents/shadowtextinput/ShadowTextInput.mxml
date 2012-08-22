@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 creationComplete="initComponent()">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			[Bindable]
+			public var shadowText:String = "请输入";
+			
+			private var _shadowMode:Boolean = true;
+			
+			public function get text():String {
+				return textField.text;
+			}
+			
+			public function set shadowMode(value:Boolean):void {
+				if (value) {
+					// Set shadow mode to true.
+					shadowTextLabel.text = shadowText;
+					shadowTextLabel.visible = true;
+					_shadowMode = true;
+				}else {
+					// Set shadow mode to false.
+					if (_shadowMode) {
+						textField.text = "";
+						shadowTextLabel.visible = false;
+						_shadowMode = false;
+					}else {
+						// If shadow mode is already set to false, do nothing.
+					}
+				}
+			}
+			
+			public function get shadowMode():Boolean {
+				return _shadowMode;
+			}
+			
+			private function initComponent():void {
+				textField.addEventListener(FocusEvent.FOCUS_IN, gainFocusAction);
+				textField.addEventListener(FocusEvent.FOCUS_OUT, loseFocusAction);
+				this.shadowMode = true;
+			}
+			
+			private function gainFocusAction(event:FocusEvent):void {
+				shadowMode = false;
+			}
+			
+			private function loseFocusAction(event:FocusEvent):void {
+				if ((this.text == null) || (this.text == "")) {
+					shadowMode = true;
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Label id="shadowTextLabel" text="{shadowText}" width="100%" height="100%" verticalAlign="middle" />
+	
+	<s:TextInput id="textField" width="100%" height="100%" alpha=".5" />
+	
+</s:SkinnableContainer>

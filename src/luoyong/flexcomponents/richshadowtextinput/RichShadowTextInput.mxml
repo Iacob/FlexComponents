@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:RichEditableText xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 text=""
+			 creationComplete="initComponent()">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			[Bindable]
+			public var shadowText:String = "请输入";
+			
+			private var _shadowMode:Boolean = true;
+			
+			public function set shadowMode(value:Boolean):void {
+				if (value) {
+					// Set shadow mode to true.
+					this.text = shadowText;
+					this.setStyle("textAlpha", 0.5);
+					_shadowMode = true;
+				}else {
+					// Set shadow mode to false.
+					if (_shadowMode) {
+						this.text = "";
+						this.setStyle("textAlpha", 1);
+						_shadowMode = false;
+					}else {
+						// If shadow mode is already set to false, do nothing.
+					}
+				}
+			}
+			
+			public function get shadowMode():Boolean {
+				return _shadowMode;
+			}
+			
+			private function initComponent():void {
+				this.addEventListener(FocusEvent.FOCUS_IN, gainFocusAction);
+				this.addEventListener(FocusEvent.FOCUS_OUT, loseFocusAction);
+				this.shadowMode = true;
+			}
+			
+			private function gainFocusAction(event:FocusEvent):void {
+				shadowMode = false;
+			}
+			
+			private function loseFocusAction(event:FocusEvent):void {
+				if ((this.text == null) || (this.text == "")) {
+					shadowMode = true;
+				}
+			}
+		]]>
+	</fx:Script>
+	
+</s:RichEditableText>
