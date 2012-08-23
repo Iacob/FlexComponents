@@ -17,12 +17,29 @@
 			
 			private var _shadowMode:Boolean = true;
 			
+			private var _initialText:String;
+			
 			public function get text():String {
 				return textField.text;
 			}
 			
+			public function set text(value:String):void {
+				
+				if (textField != null) {
+					// Set shadow mode.
+					shadowMode = ((value == null) || ("" == value))?true:false;
+					
+					textField.text = value;
+				}else {
+					// If user call this method before this component is created,
+					// save the text to a temporal local variable and set it to text field
+					// in creationComplete method.
+					_initialText = value;
+				}
+			}
+			
 			public function set shadowMode(value:Boolean):void {
-				if (value) {
+				if (value) {_initialText
 					// Set shadow mode to true.
 					shadowTextLabel.text = shadowText;
 					shadowTextLabel.visible = true;
@@ -54,9 +71,12 @@
 			}
 			
 			private function initComponent():void {
+				
 				textField.addEventListener(FocusEvent.FOCUS_IN, gainFocusAction);
 				textField.addEventListener(FocusEvent.FOCUS_OUT, loseFocusAction);
 				this.shadowMode = true;
+				
+				this.text = _initialText;
 			}
 			
 			private function gainFocusAction(event:FocusEvent):void {
