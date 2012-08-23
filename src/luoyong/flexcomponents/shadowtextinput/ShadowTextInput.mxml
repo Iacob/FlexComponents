@@ -12,6 +12,9 @@
 			[Bindable]
 			public var shadowText:String = "请输入";
 			
+			[Bindable]
+			public var displayAsPassword:Boolean = false;
+			
 			private var _shadowMode:Boolean = true;
 			
 			public function get text():String {
@@ -23,12 +26,14 @@
 					// Set shadow mode to true.
 					shadowTextLabel.text = shadowText;
 					shadowTextLabel.visible = true;
+					textField.displayAsPassword = false;
 					_shadowMode = true;
 				}else {
 					// Set shadow mode to false.
 					if (_shadowMode) {
 						textField.text = "";
 						shadowTextLabel.visible = false;
+						textField.displayAsPassword = displayAsPassword;
 						_shadowMode = false;
 					}else {
 						// If shadow mode is already set to false, do nothing.
@@ -58,7 +63,7 @@
 		]]>
 	</fx:Script>
 	
-	<s:Label id="shadowTextLabel" text="{shadowText}" width="100%" height="100%" verticalAlign="middle" />
+	<s:Label id="shadowTextLabel" text="{shadowText}" backgroundAlpha="0" width="100%" height="100%" verticalAlign="middle" />
 	
 	<s:TextInput id="textField" width="100%" height="100%" alpha=".5" />
 	
