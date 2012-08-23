@@ -45,6 +45,14 @@
 				return _shadowMode;
 			}
 			
+			override public function styleChanged(styleProp:String):void {
+				trace(styleProp);
+				if (("textAlign" == styleProp) || ("text-align" == styleProp)) {
+					shadowTextLabel.setStyle(styleProp, this.getStyle(styleProp));
+					textField.setStyle(styleProp, this.getStyle(styleProp));
+				}
+			}
+			
 			private function initComponent():void {
 				textField.addEventListener(FocusEvent.FOCUS_IN, gainFocusAction);
 				textField.addEventListener(FocusEvent.FOCUS_OUT, loseFocusAction);
