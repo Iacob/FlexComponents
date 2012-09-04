@@ -6,6 +6,11 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	
+	<fx:Metadata>
+		[Style(name="backgroundTextColor", format="Color", inherit="no", type="uint")]
+		[Style(name="foregroundAlpha", format="Number", inherit="no", type="Number")]
+	</fx:Metadata>
+	
 	<fx:Script>
 		<![CDATA[
 			
@@ -73,10 +78,26 @@
 				
 				super.styleChanged(styleProp);
 				
-				if (("textAlign" == styleProp) || ("text-align" == styleProp)) {
-					shadowTextLabel.setStyle(styleProp, this.getStyle(styleProp));
-					textField.setStyle(styleProp, this.getStyle(styleProp));
+				// If all style properties updated, the styleProp parameter is null.
+				if (styleProp == null) {
+					
+					
 				}
+				
+//				if (("textAlign" == styleProp) || ("text-align" == styleProp)) {
+//					
+//					shadowTextLabel.setStyle(styleProp, this.getStyle(styleProp));
+//					textField.setStyle(styleProp, this.getStyle(styleProp));
+//					
+//				}else if ("backgroundTextColor" == styleProp) {
+//					
+//					shadowTextLabel.setStyle("color", this.getStyle("backgroundTextColor"));
+//					
+//				}else if ("foregroundAlpha" == styleProp) {
+//					
+//					textField.setStyle("alpha", this.getStyle("foregroundAlpha"));
+//					
+//				}
 			}
 			
 			private function initComponent():void {
@@ -88,6 +109,15 @@
 				this._initialized = true;
 				
 				this.text = _initialText;
+				
+				// Set component styles.
+				shadowTextLabel.setStyle("textAlign", this.getStyle("textAlign"));
+				textField.setStyle("textAlign", this.getStyle("textAlign"));
+				
+				shadowTextLabel.setStyle("color", this.getStyle("backgroundTextColor"));
+				
+				trace(this.getStyle("foregroundAlpha"));
+				textField.setStyle("alpha", this.getStyle("foregroundAlpha"));
 			}
 			
 			private function gainFocusAction(event:FocusEvent):void {
