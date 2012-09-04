@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shadowtextinput:ShadowTextInput xmlns:fx="http://ns.adobe.com/mxml/2009" 
+								 xmlns:s="library://ns.adobe.com/flex/spark"
+								 xmlns:shadowtextinput="luoyong.flexcomponents.shadowtextinput.*"
+								 text=""
+								 creationComplete="initComponent()"
+								 >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Metadata>
+		[Event(name="search", type="flash.events.Event")]
+	</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			/**
+			 * 是否已经开始搜索
+			 * 如已经开始搜索不要重复启动搜索
+			 */
+			private var searching:Boolean = false;
+			
+			/**
+			 * 是否正在输入
+			 * 正在输入时不要启动搜索
+			 */
+			private var typing:Boolean = false;
+			
+			private var typingStatusCheckTimer:Timer;
+			
+			private var searchTimer:Timer;
+			
+			public var typingSleepTime:int = 500;
+			
+			private function initComponent():void {
+				
+				//super.initComponent();
+				
+				this.addEventListener(KeyboardEvent.KEY_DOWN, onTyping);
+				
+				typingStatusCheckTimer = new Timer(typingSleepTime, 1);
+				typingStatusCheckTimer.addEventListener(TimerEvent.TIMER, onTypingStatusCheckTimer);
+				
+				searchTimer = new Timer(typingSleepTime, 1);
+				searchTimer.addEventListener(TimerEvent.TIMER, onSearchTimer);
+				//timer.start();
+			}
+			
+			private function onTypingStatusCheckTimer(event:TimerEvent):void {
+				// 解除输入状态，在下一次循环时如此状态仍然为false则开始搜索
+				typing = false;
+				
+				searchTimer.start();
+			}
+			
+			private function onSearchTimer(event:TimerEvent):void {
+				if (!typing && !searching) {
+					// 触发搜索事件
+					var evt:Event = new Event("search");
+					this.dispatchEvent(evt);
+					// 将搜索状态设为true，在输入时解除此状态
+					searching = true;
+				}
+			}
+			
+			private function onTyping(event:KeyboardEvent):void {
+				
+				if (!typing) {
+					typingStatusCheckTimer.start();
+				}
+				
+				typing = true;
+				// 输入时解除搜索状态
+				searching = false;
+			}
+			
+		]]>
+	</fx:Script>
+</shadowtextinput:ShadowTextInput>

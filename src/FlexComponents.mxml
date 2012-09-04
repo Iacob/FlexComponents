@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark"
-			   xmlns:component="luoyong.flexcomponents.shadowtextinput.*"
+			   xmlns:component="luoyong.flexcomponents.shadowtextsearchfield.*"
 			   applicationDPI="160">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -10,6 +10,7 @@
 	<fx:Script>
 		<![CDATA[
 			private function buttonClick():void {
+				trace("Hello");
 			}
 		]]>
 	</fx:Script>
@@ -18,8 +19,9 @@
 		<s:layout>
 			<s:VerticalLayout />
 		</s:layout>
-		<component:ShadowTextInput id="shadowText" width="100%" />
-		<s:RichEditableText width="100%" text="Hello" textAlpha="0.5" />
+		
+		<component:ShadowTextSearchField search="buttonClick()" id="shadowText" width="100%" />
+		
 		<s:Button click="buttonClick()" />
 	</s:SkinnableContainer>
 </s:Application>
