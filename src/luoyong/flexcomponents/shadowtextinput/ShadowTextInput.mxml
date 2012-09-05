@@ -8,7 +8,8 @@
 	
 	<fx:Metadata>
 		[Style(name="backgroundTextColor", format="Color", inherit="no", type="uint")]
-		[Style(name="foregroundAlpha", format="Number", inherit="no", type="Number")]
+		[Style(name="textInputBackgroundAlpha", format="Number", inherit="no", type="Number")]
+		[Style(name="borderVisible", format="Boolean", inherit="no", type="Boolean")]
 	</fx:Metadata>
 	
 	<fx:Script>
@@ -116,8 +117,8 @@
 				
 				shadowTextLabel.setStyle("color", this.getStyle("backgroundTextColor"));
 				
-				trace(this.getStyle("foregroundAlpha"));
-				textField.setStyle("alpha", this.getStyle("foregroundAlpha"));
+				textField.setStyle("contentBackgroundAlpha", this.getStyle("textInputBackgroundAlpha"));
+				textField.setStyle("borderVisible", this.getStyle("borderVisible"));
 			}
 			
 			private function gainFocusAction(event:FocusEvent):void {

@@ -21,7 +21,7 @@
 			<s:VerticalLayout />
 		</s:layout>
 		
-		<shadowtextinput:ShadowTextInput foregroundAlpha="0" backgroundTextColor="blue" />
+		<shadowtextinput:ShadowTextInput textInputBackgroundAlpha="0" backgroundTextColor="blue" borderVisible="false" />
 		
 		<!-- component:ShadowTextSearchField search="buttonClick()" id="shadowText" width="100%" / -->
 		
