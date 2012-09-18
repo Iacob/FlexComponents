@@ -10,6 +10,7 @@
 		[Style(name="backgroundTextColor", format="Color", inherit="no", type="uint")]
 		[Style(name="textInputBackgroundAlpha", format="Number", inherit="no", type="Number")]
 		[Style(name="borderVisible", format="Boolean", inherit="no", type="Boolean")]
+		[Style(name="editable", format="Boolean", inherit="no", type="Boolean")]
 	</fx:Metadata>
 	
 	<fx:Script>
@@ -25,13 +26,15 @@
 			
 			private var _initialText:String;
 			
+			private var _editable:Boolean = true;
+			
 			/**
 			 * The viewActivate method of the main frame might be called after this component created 
 			 * and before creationComplete of this component called. So we use this variable.
 			 * This variable will be set to true in the creationComplete method. 
 			 */
 			private var _initialized:Boolean = false;
-			
+
 			public function get text():String {
 				return textField.text;
 			}
@@ -101,6 +104,18 @@
 //				}
 			}
 			
+			public function get editable():Boolean
+			{
+				return _editable;
+			}
+			
+			public function set editable(value:Boolean):void
+			{
+				_editable = value;
+				
+				textField.editable = _editable;
+			}
+			
 			private function initComponent():void {
 				
 				textField.addEventListener(FocusEvent.FOCUS_IN, gainFocusAction);
@@ -119,6 +134,12 @@
 				
 				textField.setStyle("contentBackgroundAlpha", this.getStyle("textInputBackgroundAlpha"));
 				textField.setStyle("borderVisible", this.getStyle("borderVisible"));
+				
+				var editableStyle:* = this.getStyle("editable");
+				
+				if (editableStyle != null) {
+					this.editable = editableStyle;
+				}
 			}
 			
 			private function gainFocusAction(event:FocusEvent):void {
